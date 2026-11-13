@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#14110f">
+<title>Kebapçı Ökkeş · Menü</title>
+<link rel="icon" href="imagess/images.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#14110f; --bg2:#1d1916; --card:#221d1a; --line:#2f2824;
+    --text:#f4ece1; --muted:#a8998a; --red:#d4202f; --red2:#ff4b55; --gold:#e3b26b;
+    --r:16px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+  body{background:var(--bg);color:var(--text);font-family:Manrope,system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.4;
+    background-image:radial-gradient(1200px 500px at 50% -200px,rgba(212,32,47,.18),transparent 70%)}
+  a{color:inherit;text-decoration:none}
+
+  /* hero */
+  .hero{text-align:center;padding:42px 20px 26px}
+  .badge{width:124px;height:124px;border-radius:50%;background:#fff;margin:0 auto;display:grid;place-items:center;overflow:hidden;
+    box-shadow:0 0 0 4px var(--bg),0 0 0 5px rgba(227,178,107,.5),0 14px 40px rgba(0,0,0,.6)}
+  .badge img{width:100px;height:auto}
+  .hero h1{font-family:"Playfair Display",Georgia,serif;font-size:clamp(30px,7vw,46px);letter-spacing:.5px;margin-top:10px}
+  .hero h1 span{color:var(--red2)}
+  .hero p{color:var(--muted);font-size:13px;letter-spacing:4px;text-transform:uppercase;margin-top:8px}
+  .rule{display:flex;align-items:center;gap:12px;justify-content:center;margin-top:16px;color:var(--gold);font-size:12px}
+  .rule::before,.rule::after{content:"";height:1px;width:60px;background:linear-gradient(90deg,transparent,var(--gold))}
+  .rule::after{transform:scaleX(-1)}
+
+  /* category bar */
+  .bar{position:sticky;top:0;z-index:20;background:rgba(20,17,15,.86);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--line)}
+  .chips{display:flex;gap:8px;overflow-x:auto;padding:12px 16px;max-width:1100px;margin:0 auto;scrollbar-width:none}
+  .chips::-webkit-scrollbar{display:none}
+  .chip{flex:0 0 auto;padding:9px 16px;border-radius:999px;border:1px solid var(--line);background:var(--bg2);
+    font-size:14px;font-weight:600;color:var(--muted);transition:.25s}
+  .chip:hover{color:var(--text);border-color:#4a3f38}
+  .chip.active{background:var(--red);border-color:var(--red);color:#fff;box-shadow:0 6px 18px rgba(212,32,47,.35)}
+
+  /* sections */
+  main{max-width:1100px;margin:0 auto;padding:8px 16px 80px}
+  .cat{scroll-margin-top:72px;padding-top:30px}
+  .cat-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:16px;
+    padding-bottom:10px;border-bottom:1px solid var(--line)}
+  .cat-head h2{font-family:"Playfair Display",Georgia,serif;font-size:28px;position:relative;padding-left:16px}
+  .cat-head h2::before{content:"";position:absolute;left:0;top:18%;bottom:18%;width:4px;border-radius:4px;background:var(--red)}
+  .count{color:var(--muted);font-size:13px}
+
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+  @media(min-width:700px){.grid{grid-template-columns:repeat(3,1fr);gap:18px}}
+  @media(min-width:1000px){.grid{grid-template-columns:repeat(4,1fr)}}
+  .card{background:var(--card);border-radius:var(--r);overflow:hidden;border:1px solid var(--line);cursor:zoom-in;
+    transition:transform .25s,box-shadow .25s;display:flex;flex-direction:column}
+  .card:hover{transform:translateY(-3px);box-shadow:0 14px 30px rgba(0,0,0,.45)}
+  .ph{aspect-ratio:4/3;overflow:hidden;background:#2a231f}
+  .ph img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s}
+  .card:hover .ph img{transform:scale(1.05)}
+  .card.plain{cursor:default}
+  .noimg{display:grid;place-items:center;padding:14px;text-align:center;
+    background:radial-gradient(circle at 30% 20%,rgba(212,32,47,.28),transparent 60%),radial-gradient(circle at 80% 90%,rgba(227,178,107,.18),transparent 55%),#251f1b}
+  .noimg span{font-family:"Playfair Display",Georgia,serif;font-size:64px;line-height:1;color:rgba(227,178,107,.55);width:96px;height:96px;display:grid;place-items:center;border:1px solid rgba(227,178,107,.3);border-radius:50%}
+  .info{padding:11px 12px 13px;display:flex;flex-direction:column;gap:6px;flex:1;justify-content:space-between}
+  .info h3{font-size:15px;font-weight:600;line-height:1.25}
+  .price{color:var(--gold);font-weight:700;font-size:16px;white-space:nowrap}
+
+  .list{list-style:none;margin-top:14px;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:4px 16px}
+  .grid + .list{margin-top:18px}
+  .list li{display:flex;align-items:baseline;gap:8px;padding:13px 0;border-bottom:1px dashed var(--line)}
+  .list li:last-child{border-bottom:none}
+  .list .n{font-weight:500}
+  .list .dots{flex:1;border-bottom:1px dotted #4a3f38;transform:translateY(-4px)}
+
+  footer{text-align:center;color:var(--muted);font-size:12px;padding:30px 16px 40px;border-top:1px solid var(--line)}
+  footer img{width:60px;background:#fff;border-radius:50%;padding:6px;margin-bottom:10px}
+
+  /* back to top */
+  .top{position:fixed;right:16px;bottom:18px;width:46px;height:46px;border-radius:50%;background:var(--red);color:#fff;border:none;
+    font-size:20px;box-shadow:0 8px 22px rgba(0,0,0,.5);opacity:0;pointer-events:none;transition:.3s;cursor:pointer;z-index:30}
+  .top.show{opacity:1;pointer-events:auto}
+
+  /* lightbox */
+  .lb{position:fixed;inset:0;background:rgba(0,0,0,.9);display:none;align-items:center;justify-content:center;flex-direction:column;
+    gap:14px;z-index:50;padding:20px;cursor:zoom-out}
+  .lb.open{display:flex}
+  .lb img{max-width:100%;max-height:78vh;border-radius:12px}
+  .lb .cap{font-family:"Playfair Display",Georgia,serif;font-size:22px;text-align:center}
+  .lb .cap b{display:block;color:var(--gold);font-family:Manrope,sans-serif;font-size:18px;margin-top:4px}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="badge"><img src="imagess/images.png" alt="Kebapçı Ökkeş"></div>
+  <h1>Kebapçı <span>Ökkeş</span></h1>
+  <p>Menü</p>
+  <div class="rule">✦</div>
+</header>
+
+<nav class="bar">
+  <div class="chips" id="chips">
+      <a href="#kebap_porsiyon" class="chip">Kebap Porsiyon</a>
+      <a href="#kebap_durum" class="chip">Kebap Dürüm</a>
+      <a href="#lahmacun" class="chip">Lahmacun</a>
+      <a href="#pide" class="chip">Pide</a>
+      <a href="#pizza" class="chip">Pizza</a>
+      <a href="#corba" class="chip">Çorba</a>
+      <a href="#tatli" class="chip">Tatlı</a>
+      <a href="#icecek" class="chip">İçecek</a>
+  </div>
+</nav>
+
+<main>
+  <section id="kebap_porsiyon" class="cat">
+    <header class="cat-head"><h2>Kebap Porsiyon</h2><span class="count">18 çeşit</span></header>
+    <div class="grid">
+      <article class="card" data-full="imagess/tavuk_kanat.JPG">
+        <div class="ph"><img src="imagess/tavuk_kanat.JPG" alt="Tavuk Kanat" loading="lazy" decoding="async"></div>
+        <div class="info"><h3>Tavuk Kanat</h3><span class="price">₺645</span></div>
+      </article>
+      <article class="card" data-full="imagess/tavuk_sis_posiyon.JPG">
+        <div class="ph"><img src="imagess/tavuk_sis_posiyon.JPG" alt="Tavuk Şiş" loading="lazy" decoding="async"></div>
+        <div class="info"><h3>Tavuk Şiş</h3><span class="price">₺595</span></div>
+      </article>
+      <article class="card" data-full="imagess/beyti_sarma.JPG">
+        <div class="ph"><img src="imagess/beyti_sarma.JPG" alt="Beyti Sarma" loading="lazy" decoding="async"></div>
+        <div class="info"><h3>Beyti Sarma</h3><span class="price">₺745</span></div>
+      </article>
+      <article class="card" data-full="imagess/patlican_kebap.JPG">
+        <div class="ph"><img src="imagess/patlican_kebap.JPG" alt="Patlıcan Kebabı" loading="lazy" decoding="async"></div>
+        <div class="info"><h3>Patlıcan Kebabı</h3><span class="price">₺745</span></div>
+      </article>
+      <article class="card plain" data-full="">
+        <div class="ph noimg"><span>K</span></div>
+        <div class="info"><h3>Küşleme</h3><span class="price">₺975</span></div>
+      </article>
+      <article class="card" data-full="imagess/yaglı_kara.JPG">
+        <div class="ph"><img src="imagess/yaglı_kara.JPG" alt="Yağlı Kara" loading="lazy" decoding="async"></div>
+        <div class="info"><h3>Yağlı Kara</h3><span class="price">₺975</span></div>
+      </article>
+      <article class="card" data-full="imagess/adana_kebap.JPG">
+        <div class="ph"><img src="imagess/adana_kebap.JPG" alt="Adana Porsiyon" loading="lazy" decoding="async"></div>
+        <div class="info"><h3>Adana Porsiyon</h3><span class="price">₺645</span></div>
+      </article>
+      <article class="card" data-full="imagess/kaburga.JPG">
+        <div class="ph"><img src="imagess/kaburga.JPG" alt="Kaburga" loading="lazy" decoding="async"></div>
+        <div class="info"><h3>Kaburga</h3><span class="price">₺845</span></div>
+      </article>
+      <article class="card" data-full="imagess/urfa_porsiyon.JPG">
+        <div class="ph"><img src="imagess/urfa_porsiyon.JPG" alt="Urfa Porsiyon" loading="lazy" decoding="async"></div>
+        <div class="info"><h3>Urfa Porsiyon</h3><span class="price">₺645</span></div>
+      </article>
+      <article class="card" data-full="imagess/kuzu_lokum.JPG">
+        <div class="ph"><img src="imagess/kuzu_lokum.JPG" alt="Kuzu Lokum" loading="lazy" decoding="async"></div>
+        <div class="info"><h3>Kuzu Lokum</h3><span class="price">₺945</span></div>
+      </article>
+      <article class="card" data-full="imagess/kuzu_sis_porsiyon.JPG">
+        <div class="ph"><img src="imagess/kuzu_sis_porsiyon.JPG" alt="Kuzu Porsiyon" loading="lazy" decoding="async"></div>
+        <div class="info"><h3>Kuzu Porsiyon</h3><span class="price">₺745</span></div>
+      </article>
+      <article class="card" data-full="imagess/izgara_kofte.JPG">
+        <div class="ph"><img src="imagess/izgara_kofte.JPG" alt="Izgara Köfte" loading="lazy" decoding="async"></div>
+        <div class="info"><h3>Izgara Köfte</h3><span class="price">₺645</span></div>
+      </article>
+      <article class="card" data-full="imagess/ciger_sis_posiyon.JPG">
+        <div class="ph"><img src="imagess/ciger_sis_posiyon.JPG" alt="Ciğer Porsiyon" loading="lazy" decoding="async"></div>
+        <div class="info"><h3>Ciğer Porsiyon</h3><span class="price">₺745</span></div>
+      </article>
+      <article class="card" data-full="imagess/okkes_special.JPG">
+        <div class="ph"><img src="imagess/okkes_special.JPG" alt="Ökkeş Special" loading="lazy" decoding="async"></div>
+        <div class="info"><h3>Ökkeş Special</h3><span class="price">₺1.895</span></div>
+      </article>
+      <article class="card" data-full="imagess/kuzu_pirzola.JPG">
+        <div class="ph"><img src="imagess/kuzu_pirzola.JPG" alt="Kuzu Pirzola" loading="lazy" decoding="async"></div>
+        <div class="info"><h3>Kuzu Pirzola</h3><span class="price">₺945</span></div>
+      </article>
+      <article class="card" data-full="imagess/sebzeli_kebap.JPG">
+        <div class="ph"><img src="imagess/sebzeli_kebap.JPG" alt="Sebzeli Kebap" loading="lazy" decoding="async"></div>
+        <div class="info"><h3>Sebzeli Kebap</h3><span class="price">₺675</span></div>
+      </article>
+      <article class="card" data-full="imagess/yogurtlu_kebap.JPG">
+        <div class="ph"><img src="imagess/yogurtlu_kebap.JPG" alt="Yoğurtlu Kebap" loading="lazy" decoding="async"></div>
+        <div class="info"><h3>Yoğurtlu Kebap</h3><span class="price">₺745</span></div>
+      </article>
+      <article class="card" data-full="imagess/ali_nazik.JPG">
+        <div class="ph"><img src="imagess/ali_nazik.JPG" alt="Ali Nazik" loading="lazy" decoding="async"></div>
+        <div class="info"><h3>Ali Nazik</h3><span class="price">₺845</span></div>
+      </article>
+    </div>
+  </section>
+
+  <section id="kebap_durum" class="cat">
+    <header class="cat-head"><h2>Kebap Dürüm</h2><span class="count">6 çeşit</span></header>
+    <div class="grid">
+      <article class="card plain" data-full="">
+        <div class="ph noimg"><span>Y</span></div>
+        <div class="info"><h3>Yarım Köfte Ekmek</h3><span class="price">₺295</span></div>
+      </article>
+      <article class="card" data-full="imagess/adana_durum.JPG">
+        <div class="ph"><img src="imagess/adana_durum.JPG" alt="Adana Dürüm" loading="lazy" decoding="async"></div>
+        <div class="info"><h3>Adana Dürüm</h3><span class="price">₺295</span></div>
+      </article>
+      <article class="card" data-full="imagess/urfa_durum.JPG">
+        <div class="ph"><img src="imagess/urfa_durum.JPG" alt="Urfa Dürüm" loading="lazy" decoding="async"></div>
+        <div class="info"><h3>Urfa Dürüm</h3><span class="price">₺295</span></div>
+      </article>
+      <article class="card" data-full="imagess/kuzu_sis_durum.JPG">
+        <div class="ph"><img src="imagess/kuzu_sis_durum.JPG" alt="Kuzu Şiş Dürüm" loading="lazy" decoding="async"></div>
+        <div class="info"><h3>Kuzu Şiş Dürüm</h3><span class="price">₺375</span></div>
+      </article>
+      <article class="card" data-full="imagess/ciger_sis_durum.JPG">
+        <div class="ph"><img src="imagess/ciger_sis_durum.JPG" alt="Ciğer Şiş Dürüm" loading="lazy" decoding="async"></div>
+        <div class="info"><h3>Ciğer Şiş Dürüm</h3><span class="price">₺375</span></div>
+      </article>
+      <article class="card" data-full="imagess/tavuk_sis_durum.JPG">
+        <div class="ph"><img src="imagess/tavuk_sis_durum.JPG" alt="Tavuk Şiş Dürüm" loading="lazy" decoding="async"></div>
+        <div class="info"><h3>Tavuk Şiş Dürüm</h3><span class="price">₺225</span></div>
+      </article>
+    </div>
+  </section>
+
+  <section id="lahmacun" class="cat">
+    <header class="cat-head"><h2>Lahmacun</h2><span class="count">3 çeşit</span></header>
+    <div class="grid">
+      <article class="card" data-full="imagess/adana_lahmacun.JPG">
+        <div class="ph"><img src="imagess/adana_lahmacun.JPG" alt="Adana Lahmacun" loading="lazy" decoding="async"></div>
+        <div class="info"><h3>Adana Lahmacun</h3><span class="price">₺195</span></div>
+      </article>
+      <article class="card" data-full="imagess/antep_lahmacun.JPG">
+        <div class="ph"><img src="imagess/antep_lahmacun.JPG" alt="Antep Lahmacun" loading="lazy" decoding="async"></div>
+        <div class="info"><h3>Antep Lahmacun</h3><span class="price">₺225</span></div>
+      </article>
+      <article class="card plain" data-full="">
+        <div class="ph noimg"><span>F</span></div>
+        <div class="info"><h3>Fındık Lahmacun</h3><span class="price">₺75</span></div>
+      </article>
+    </div>
+  </section>
+
+  <section id="pide" class="cat">
+    <header class="cat-head"><h2>Pide</h2><span class="count">18 çeşit</span></header>
+    <div class="grid">
+      <article class="card" data-full="imagess/karisik_pide.JPG">
+        <div class="ph"><img src="imagess/karisik_pide.JPG" alt="Karışık Pide" loading="lazy" decoding="async"></div>
+        <div class="info"><h3>Karışık Pide</h3><span class="price">₺495</span></div>
+      </article>
+      <article class="card" data-full="imagess/tavuklu_pide.JPG">
+        <div class="ph"><img src="imagess/tavuklu_pide.JPG" alt="Tavuklu Pide" loading="lazy" decoding="async"></div>
+        <div class="info"><h3>Tavuklu Pide</h3><span class="price">₺325</span></div>
+      </article>
+      <article class="card plain" data-full="">
+        <div class="ph noimg"><span>K</span></div>
+        <div class="info"><h3>Kaşarlı Yumurtalı Pide</h3><span class="price">₺345</span></div>
+      </article>
+      <article class="card plain" data-full="">
+        <div class="ph noimg"><span>K</span></div>
+        <div class="info"><h3>Kuşbaşı Mantarlı Kaşarlı Pide</h3><span class="price">₺575</span></div>
+      </article>
+      <article class="card" data-full="imagess/kusbasili_pide.JPG">
+        <div class="ph"><img src="imagess/kusbasili_pide.JPG" alt="Kuşbaşılı Pide" loading="lazy" decoding="async"></div>
+        <div class="info"><h3>Kuşbaşılı Pide</h3><span class="price">₺475</span></div>
+      </article>
+      <article class="card" data-full="imagess/kusbasi_kasarli_pide.JPG">
+        <div class="ph"><img src="imagess/kusbasi_kasarli_pide.JPG" alt="Kuşbaşı Kaşarlı Pide" loading="lazy" decoding="async"></div>
+        <div class="info"><h3>Kuşbaşı Kaşarlı Pide</h3><span class="price">₺545</span></div>
+      </article>
+      <article class="card" data-full="imagess/kiymali_pide.JPG">
+        <div class="ph"><img src="imagess/kiymali_pide.JPG" alt="Kıymalı Pide" loading="lazy" decoding="async"></div>
+        <div class="info"><h3>Kıymalı Pide</h3><span class="price">₺375</span></div>
+      </article>
+      <article class="card" data-full="imagess/kasarli_pide.JPG">
+        <div class="ph"><img src="imagess/kasarli_pide.JPG" alt="Kaşarlı Pide" loading="lazy" decoding="async"></div>
+        <div class="info"><h3>Kaşarlı Pide</h3><span class="price">₺325</span></div>
+      </article>
+      <article class="card" data-full="imagess/sucuk_kasarli_pide.JPG">
+        <div class="ph"><img src="imagess/sucuk_kasarli_pide.JPG" alt="Sucuklu Kaşarlı Pide" loading="lazy" decoding="async"></div>
+        <div class="info"><h3>Sucuklu Kaşarlı Pide</h3><span class="price">₺375</span></div>
+      </article>
+      <article class="card" data-full="imagess/sebzeli_kasarli_pide.JPG">
+        <div class="ph"><img src="imagess/sebzeli_kasarli_pide.JPG" alt="Sebzeli Kaşarlı Pide" loading="lazy" decoding="async"></div>
+        <div class="info"><h3>Sebzeli Kaşarlı Pide</h3><span class="price">₺395</span></div>
+      </article>
+      <article class="card" data-full="imagess/tavuk_kasarli_pide.JPG">
+        <div class="ph"><img src="imagess/tavuk_kasarli_pide.JPG" alt="Tavuklu Kaşarlı Pide" loading="lazy" decoding="async"></div>
+        <div class="info"><h3>Tavuklu Kaşarlı Pide</h3><span class="price">₺375</span></div>
+      </article>
+      <article class="card" data-full="imagess/mantarli_kasarli_pide.JPG">
+        <div class="ph"><img src="imagess/mantarli_kasarli_pide.JPG" alt="Kaşarlı Mantarlı Pide" loading="lazy" decoding="async"></div>
+        <div class="info"><h3>Kaşarlı Mantarlı Pide</h3><span class="price">₺375</span></div>
+      </article>
+      <article class="card" data-full="imagess/kavurmali_kasarli_pide.JPG">
+        <div class="ph"><img src="imagess/kavurmali_kasarli_pide.JPG" alt="Kavurmalı Kaşarlı Pide" loading="lazy" decoding="async"></div>
+        <div class="info"><h3>Kavurmalı Kaşarlı Pide</h3><span class="price">₺575</span></div>
+      </article>
+      <article class="card plain" data-full="">
+        <div class="ph noimg"><span>P</span></div>
+        <div class="info"><h3>Pastırmalı Pide</h3><span class="price">₺595</span></div>
+      </article>
+      <article class="card plain" data-full="">
+        <div class="ph noimg"><span>S</span></div>
+        <div class="info"><h3>Sucuklu Yumurtalı Pide</h3><span class="price">₺395</span></div>
+      </article>
+      <article class="card" data-full="imagess/kiymali_yumurtali_pide.JPG">
+        <div class="ph"><img src="imagess/kiymali_yumurtali_pide.JPG" alt="Kıymalı Yumurtalı Pide" loading="lazy" decoding="async"></div>
+        <div class="info"><h3>Kıymalı Yumurtalı Pide</h3><span class="price">₺395</span></div>
+      </article>
+      <article class="card plain" data-full="">
+        <div class="ph noimg"><span>T</span></div>
+        <div class="info"><h3>Tavuklu Kaşarlı Mantarlı Pide</h3><span class="price">₺395</span></div>
+      </article>
+      <article class="card" data-full="imagess/kiymali_kasarli_pide.JPG">
+        <div class="ph"><img src="imagess/kiymali_kasarli_pide.JPG" alt="Kıymalı Kaşarlı Pide" loading="lazy" decoding="async"></div>
+        <div class="info"><h3>Kıymalı Kaşarlı Pide</h3><span class="price">₺425</span></div>
+      </article>
+    </div>
+  </section>
+
+  <section id="pizza" class="cat">
+    <header class="cat-head"><h2>Pizza</h2><span class="count">9 çeşit</span></header>
+    <div class="grid">
+      <article class="card" data-full="imagess/karisik_pizza.JPG">
+        <div class="ph"><img src="imagess/karisik_pizza.JPG" alt="Karışık Pizza" loading="lazy" decoding="async"></div>
+        <div class="info"><h3>Karışık Pizza</h3><span class="price">₺425</span></div>
+      </article>
+      <article class="card" data-full="imagess/margarita_pizza.JPG">
+        <div class="ph"><img src="imagess/margarita_pizza.JPG" alt="Margarita" loading="lazy" decoding="async"></div>
+        <div class="info"><h3>Margarita</h3><span class="price">₺345</span></div>
+      </article>
+      <article class="card" data-full="imagess/ton_balikli_pizza.JPG">
+        <div class="ph"><img src="imagess/ton_balikli_pizza.JPG" alt="Ton Balıklı Pizza" loading="lazy" decoding="async"></div>
+        <div class="info"><h3>Ton Balıklı Pizza</h3><span class="price">₺475</span></div>
+      </article>
+      <article class="card plain" data-full="">
+        <div class="ph noimg"><span>V</span></div>
+        <div class="info"><h3>Vejeteryan Pizza</h3><span class="price">₺375</span></div>
+      </article>
+      <article class="card" data-full="imagess/kavurmali_pizza.JPG">
+        <div class="ph"><img src="imagess/kavurmali_pizza.JPG" alt="Kavurmalı Pizza" loading="lazy" decoding="async"></div>
+        <div class="info"><h3>Kavurmalı Pizza</h3><span class="price">₺645</span></div>
+      </article>
+      <article class="card plain" data-full="">
+        <div class="ph noimg"><span>P</span></div>
+        <div class="info"><h3>Pastırmalı Pizza</h3><span class="price">₺645</span></div>
+      </article>
+      <article class="card plain" data-full="">
+        <div class="ph noimg"><span>S</span></div>
+        <div class="info"><h3>Sucuklu Pizza</h3><span class="price">₺375</span></div>
+      </article>
+      <article class="card plain" data-full="">
+        <div class="ph noimg"><span>T</span></div>
+        <div class="info"><h3>Tavuklu Pizza</h3><span class="price">₺375</span></div>
+      </article>
+      <article class="card plain" data-full="">
+        <div class="ph noimg"><span>A</span></div>
+        <div class="info"><h3>Atom Pizza</h3><span class="price">₺645</span></div>
+      </article>
+    </div>
+  </section>
+
+  <section id="corba" class="cat">
+    <header class="cat-head"><h2>Çorba</h2><span class="count">5 çeşit</span></header>
+    <div class="grid">
+      <article class="card" data-full="imagess/kelle_paca.JPG">
+        <div class="ph"><img src="imagess/kelle_paca.JPG" alt="Kelle Paça" loading="lazy" decoding="async"></div>
+        <div class="info"><h3>Kelle Paça</h3><span class="price">₺375</span></div>
+      </article>
+      <article class="card" data-full="imagess/tavuk_suyu_corba.JPG">
+        <div class="ph"><img src="imagess/tavuk_suyu_corba.JPG" alt="Tavuk Suyu" loading="lazy" decoding="async"></div>
+        <div class="info"><h3>Tavuk Suyu</h3><span class="price">₺275</span></div>
+      </article>
+      <article class="card" data-full="imagess/mercimek_corba.JPG">
+        <div class="ph"><img src="imagess/mercimek_corba.JPG" alt="Mercimek" loading="lazy" decoding="async"></div>
+        <div class="info"><h3>Mercimek</h3><span class="price">₺245</span></div>
+      </article>
+      <article class="card plain" data-full="">
+        <div class="ph noimg"><span>B</span></div>
+        <div class="info"><h3>Beyran</h3><span class="price">₺375</span></div>
+      </article>
+      <article class="card plain" data-full="">
+        <div class="ph noimg"><span>E</span></div>
+        <div class="info"><h3>Ezogelin</h3><span class="price">₺245</span></div>
+      </article>
+    </div>
+  </section>
+
+  <section id="tatli" class="cat">
+    <header class="cat-head"><h2>Tatlı</h2><span class="count">5 çeşit</span></header>
+    <div class="grid">
+      <article class="card" data-full="imagess/kunefe.JPG">
+        <div class="ph"><img src="imagess/kunefe.JPG" alt="Künefe" loading="lazy" decoding="async"></div>
+        <div class="info"><h3>Künefe</h3><span class="price">₺295</span></div>
+      </article>
+      <article class="card" data-full="imagess/katmer.JPG">
+        <div class="ph"><img src="imagess/katmer.JPG" alt="Katmer" loading="lazy" decoding="async"></div>
+        <div class="info"><h3>Katmer</h3><span class="price">₺295</span></div>
+      </article>
+      <article class="card plain" data-full="">
+        <div class="ph noimg"><span>Ö</span></div>
+        <div class="info"><h3>Özel İnci Baklava</h3><span class="price">₺295</span></div>
+      </article>
+      <article class="card plain" data-full="">
+        <div class="ph noimg"><span>Ö</span></div>
+        <div class="info"><h3>Özel Baklava</h3><span class="price">₺295</span></div>
+      </article>
+      <article class="card plain" data-full="">
+        <div class="ph noimg"><span>H</span></div>
+        <div class="info"><h3>Havuç Dilimi</h3><span class="price">₺295</span></div>
+      </article>
+    </div>
+  </section>
+
+  <section id="icecek" class="cat">
+    <header class="cat-head"><h2>İçecek</h2><span class="count">12 çeşit</span></header>
+    <ul class="list">
+      <li><span class="n">Su</span><span class="dots"></span><span class="price">₺35</span></li>
+      <li><span class="n">Küçük Ayran</span><span class="dots"></span><span class="price">₺45</span></li>
+      <li><span class="n">Büyük Ayran</span><span class="dots"></span><span class="price">₺75</span></li>
+      <li><span class="n">Kola</span><span class="dots"></span><span class="price">₺95</span></li>
+      <li><span class="n">Fanta</span><span class="dots"></span><span class="price">₺95</span></li>
+      <li><span class="n">Sprite</span><span class="dots"></span><span class="price">₺95</span></li>
+      <li><span class="n">Meyve Suyu</span><span class="dots"></span><span class="price">₺95</span></li>
+      <li><span class="n">İce Tea</span><span class="dots"></span><span class="price">₺95</span></li>
+      <li><span class="n">Sade Soda</span><span class="dots"></span><span class="price">₺50</span></li>
+      <li><span class="n">Meyveli Soda</span><span class="dots"></span><span class="price">₺50</span></li>
+      <li><span class="n">El Yapımı Şalgam</span><span class="dots"></span><span class="price">₺95</span></li>
+      <li><span class="n">Açık Ayran</span><span class="dots"></span><span class="price">₺95</span></li>
+    </ul>
+  </section>
+</main>
+
+<footer>
+  <img src="imagess/images.png" alt="">
+  <div>Afiyet olsun</div>
+</footer>
+
+<button class="top" id="top" aria-label="Yukarı çık">↑</button>
+<div class="lb" id="lb"><img alt=""><div class="cap"></div></div>
+
+<script>
+(function(){
+  // Aktif kategoriyi işaretle
+  const chips=[...document.querySelectorAll('.chip')];
+  const bar=document.getElementById('chips');
+  function setActive(id){
+    chips.forEach(c=>{
+      const on=c.getAttribute('href')==='#'+id;
+      c.classList.toggle('active',on);
+      if(on) bar.scrollTo({left:c.offsetLeft-bar.clientWidth/2+c.clientWidth/2,behavior:'smooth'});
+    });
+  }
+  const obs=new IntersectionObserver(es=>{
+    es.forEach(e=>{ if(e.isIntersecting) setActive(e.target.id); });
+  },{rootMargin:'-80px 0px -65% 0px'});
+  document.querySelectorAll('.cat').forEach(s=>obs.observe(s));
+  if(chips[0]) chips[0].classList.add('active');
+
+  // Yukarı çık
+  const topBtn=document.getElementById('top');
+  addEventListener('scroll',()=>topBtn.classList.toggle('show',scrollY>600),{passive:true});
+  topBtn.onclick=()=>scrollTo({top:0,behavior:'smooth'});
+
+  // Fotoğrafı büyüt
+  const lb=document.getElementById('lb');
+  document.querySelectorAll('.card:not(.plain)').forEach(c=>c.addEventListener('click',()=>{
+    lb.querySelector('img').src=c.dataset.full;
+    lb.querySelector('.cap').innerHTML=c.querySelector('h3').textContent+'<b>'+c.querySelector('.price').textContent+'</b>';
+    lb.classList.add('open');
+  }));
+  lb.onclick=()=>lb.classList.remove('open');
+  addEventListener('keydown',e=>{ if(e.key==='Escape') lb.classList.remove('open'); });
+})();
+</script>
+</body>
+</html>
